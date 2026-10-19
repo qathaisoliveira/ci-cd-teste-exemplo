@@ -25,7 +25,6 @@ jobs:
     - name: Gerar relatório Allure
       run: npm run report:generate
 
-
     - name: Publicar relatório no Gh Pages
       uses: peaceiris/actions-gh-pages@v4
       with:
