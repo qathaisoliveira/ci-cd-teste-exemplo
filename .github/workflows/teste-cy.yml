@@ -19,14 +19,15 @@ jobs:
     - name: Instalar dependências
       run: npm install
 
-    - name: Executar testes
+    - name: Executar testes do Cypress
       run: npm test
+      continue-on-error: true # Importante caso queira que o relatório seja gerado mesmo se houver testes falhados (como o teste do 4 vs 2)
 
     - name: Gerar relatório Allure
-      run: npm run report:generate
+      run: npx allure generate allure-results --clean -o allure-report
 
     - name: Publicar relatório no Gh Pages
       uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./allure-report
+        publish_dir: allure-report
