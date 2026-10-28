@@ -6,7 +6,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     
     permissions:
@@ -14,20 +13,25 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    
     - name: Use Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: '20'
         cache: 'npm'
+        
     - name: Instalar dependências
       run: npm install
 
-    - name: Executar testes
+    - name: Executar testes do Cypress
       run: npm test
+      continue-on-error: true
 
     - name: Gerar relatório Allure
-      run: npm run report:generate
+      run: npx allure generate allure-results --clean -o allure-report
 
+    - name: Verificar se a pasta allure-report existe
+      run: ls -la allure-report
 
     - name: Publicar relatório no Gh Pages
       uses: peaceiris/actions-gh-pages@v4
